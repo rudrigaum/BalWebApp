@@ -94,9 +94,9 @@
   ];
 
   const escudos = {
-    "Real Madrid": "img/real-madrid.png",
+    "Real Madrid": "img/real_madrid.png",
     "Barcelona": "img/barcelona.png",
-    "Atlético de Madrid": "img/atletico-de-madrid.png"
+    "Atlético de Madrid": "img/atlético_de_madrid.png"
   };
 
   // Função para calcular classificação a partir dos jogos
@@ -217,9 +217,21 @@
         const item = document.createElement("div");
         item.className = "flex justify-between items-center py-2 px-3 bg-white shadow-sm rounded mb-1";
         item.innerHTML = `
-          <span class="flex-1 text-left">${jogo.casa}</span>
-          <span class="w-16 text-center font-bold">${jogo.golsCasa} x ${jogo.golsFora}</span>
-          <span class="flex-1 text-right">${jogo.fora}</span>
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2 flex-1">
+            <img src="img/${jogo.casa.toLowerCase().replace(/ /g, "_")}.png" class="w-6 h-6" />
+            <span>${jogo.casa}</span>
+            </div>
+            <span class="w-16 text-center font-bold">${jogo.golsCasa} x ${jogo.golsFora}</span>
+            <div class="flex items-center gap-2 flex-1 justify-end">
+            <span>${jogo.fora}</span>
+            <img src="img/${jogo.fora.toLowerCase().replace(/ /g, "_")}.png" class="w-6 h-6" />
+            </div>
+        </div>
+        <div class="text-xs text-gray-600 mt-1">
+            <span>${jogo.casa}: ${jogo.marcadoresCasa.join(", ") || "—"}</span><br>
+            <span>${jogo.fora}: ${jogo.marcadoresFora.join(", ") || "—"}</span>
+        </div>
         `;
         section.appendChild(item);
       });
