@@ -76,6 +76,12 @@
     { casa: "Barcelona", fora: "Atlético de Madrid", golsCasa: 1, golsFora: 2 }
   ];
 
+  const escudos = {
+    "Real Madrid": "img/real-madrid.png",
+    "Barcelona": "img/barcelona.png",
+    "Atlético de Madrid": "img/atletico-de-madrid.png"
+  };
+
   // Função para calcular classificação a partir dos jogos
   function calcularClassificacao(jogos) {
     const times = {};
@@ -130,14 +136,17 @@
   function atualizarTabelaClassificacao() {
     const classificacao = calcularClassificacao(jogos);
     const tabelaBody = document.getElementById("tabela-body");
-    tabelaBody.innerHTML = ""; // limpa antes de inserir novamente
-
+    tabelaBody.innerHTML = "";
+  
     classificacao.forEach((time, index) => {
       const row = document.createElement("tr");
       row.className = "hover:bg-gray-50";
       row.innerHTML = `
         <td class="px-3 py-2 font-bold">${index + 1}</td>
-        <td class="px-3 py-2">${time.nome}</td>
+        <td class="px-3 py-2 flex items-center gap-2">
+          <img src="${escudos[time.nome]}" alt="${time.nome}" class="w-6 h-6 object-contain" />
+          <span>${time.nome}</span>
+        </td>
         <td class="px-3 py-2">${time.pj}</td>
         <td class="px-3 py-2">${time.v}</td>
         <td class="px-3 py-2">${time.e}</td>
@@ -164,12 +173,20 @@
   
     jogos.forEach(jogo => {
       const item = document.createElement("div");
-      item.className = "flex justify-between items-center py-2 px-3";
+      item.className = "flex items-center justify-between gap-4 py-2 px-3";
+  
       item.innerHTML = `
-        <span class="flex-1 text-left">${jogo.casa}</span>
+        <div class="flex items-center gap-2 w-1/3">
+          <img src="${escudos[jogo.casa]}" alt="${jogo.casa}" class="w-6 h-6 object-contain" />
+          <span>${jogo.casa}</span>
+        </div>
         <span class="w-16 text-center font-bold">${jogo.golsCasa} x ${jogo.golsFora}</span>
-        <span class="flex-1 text-right">${jogo.fora}</span>
+        <div class="flex items-center justify-end gap-2 w-1/3">
+          <span>${jogo.fora}</span>
+          <img src="${escudos[jogo.fora]}" alt="${jogo.fora}" class="w-6 h-6 object-contain" />
+        </div>
       `;
+  
       resultadosDiv.appendChild(item);
     });
   }
