@@ -71,9 +71,26 @@
     ];
 
     const jogos = [
-    { casa: "Real Madrid", fora: "Barcelona", golsCasa: 2, golsFora: 1, data: "2025-04-01" },
-    { casa: "Atlético de Madrid", fora: "Real Madrid", golsCasa: 1, golsFora: 3, data: "2025-04-01" },
-    { casa: "Barcelona", fora: "Atlético de Madrid", golsCasa: 0, golsFora: 0, data: "2025-04-01" }
+    {
+      data: "2025-04-01",
+      rodada: 1,
+      casa: "Real Madrid",
+      fora: "Barcelona",
+      golsCasa: 2,
+      golsFora: 1,
+      marcadoresCasa: ["Vinícius Jr", "Bellingham"],
+      marcadoresFora: ["Lewandowski"]
+    },
+    {
+      data: "2025-04-02",
+      rodada: 1,
+      casa: "Atlético de Madrid",
+      fora: "Real Madrid",
+      golsCasa: 1,
+      golsFora: 3,
+      marcadoresCasa: ["Griezmann"],
+      marcadoresFora: ["Bellingham", "Rodrygo", "Vinícius Jr"]
+    },
   ];
 
   const escudos = {
@@ -164,6 +181,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     atualizarTabelaClassificacao();
     preencherResultados();
+    preencherArtilheiros();
     document.querySelectorAll(".tab-button")[0].click();
   });
 
@@ -215,6 +233,31 @@
   function formatarData(dataStr) {
     const [ano, mes, dia] = dataStr.split("-");
     return `${dia}/${mes}/${ano}`;
+  }
+
+  function preencherArtilheiros() {
+    const artilheirosDiv = document.getElementById("artilheiros");
+    const contagem = {};
+  
+    jogos.forEach(jogo => {
+      jogo.marcadoresCasa.forEach(jogador => {
+        contagem[jogador] = (contagem[jogador] || 0) + 1;
+      });
+      jogo.marcadoresFora.forEach(jogador => {
+        contagem[jogador] = (contagem[jogador] || 0) + 1;
+      });
+    });
+  
+    const lista = Object.entries(contagem)
+      .sort((a, b) => b[1] - a[1])
+      .map(([jogador, gols]) => `<li class="py-1">${jogador} - <strong>${gols}</strong> gol(s)</li>`)
+      .join("");
+  
+    artilheirosDiv.innerHTML = `
+      <ul class="text-sm">
+        ${lista || "<li>Nenhum gol registrado ainda.</li>"}
+      </ul>
+    `;
   }
 
     // Calcula SG e PTS
