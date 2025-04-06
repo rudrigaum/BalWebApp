@@ -2,329 +2,52 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tabela do Campeonato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campeonato</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-4">
+<body class="bg-gray-100 text-gray-800 p-4">
 
-  <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-    <h1 class="text-2xl font-bold text-center py-4">Campeonato</h1>
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4 text-center">Campeonato</h1>
 
     <!-- Abas -->
-    <div class="flex border-b border-gray-200 text-sm font-medium">
-      <button class="tab-button flex-1 py-2 text-center hover:bg-gray-100" data-tab="classificacao">Classificação</button>
-      <button class="tab-button flex-1 py-2 text-center hover:bg-gray-100" data-tab="resultados">Resultados</button>
-      <button class="tab-button flex-1 py-2 text-center hover:bg-gray-100" data-tab="artilheiros">Artilheiros</button>
-      <button class="tab-button flex-1 py-2 text-center hover:bg-gray-100" data-tab="cartoes">Cartões</button>
-      <button class="tab-button flex-1 py-2 text-center hover:bg-gray-100" data-tab="jogos">Próximos Jogos</button>
+    <div class="flex border-b mb-4">
+      <button class="tab-button px-4 py-2" data-tab="classificacao">Classificação</button>
+      <button class="tab-button px-4 py-2" data-tab="resultados">Resultados</button>
+      <button class="tab-button px-4 py-2" data-tab="artilharia">Artilharia</button>
     </div>
 
     <!-- Conteúdo das abas -->
-    <div id="classificacao" class="tab-content p-4">
-      <!-- Tabela de classificação aqui -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-sm text-left">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="px-3 py-2">#</th>
-              <th class="px-3 py-2">Time</th>
-              <th class="px-3 py-2">PJ</th>
-              <th class="px-3 py-2">V</th>
-              <th class="px-3 py-2">E</th>
-              <th class="px-3 py-2">D</th>
-              <th class="px-3 py-2">GP</th>
-              <th class="px-3 py-2">GC</th>
-              <th class="px-3 py-2">SG</th>
-              <th class="px-3 py-2">PTS</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-body" class="bg-white divide-y divide-gray-100"></tbody>
-        </table>
-      </div>
+    <div id="classificacao" class="tab-content hidden">
+      <table class="w-full text-sm table-auto border">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-2 py-1">#</th>
+            <th class="px-2 py-1 text-left">Time</th>
+            <th class="px-2 py-1">PJ</th>
+            <th class="px-2 py-1">V</th>
+            <th class="px-2 py-1">E</th>
+            <th class="px-2 py-1">D</th>
+            <th class="px-2 py-1">GP</th>
+            <th class="px-2 py-1">GC</th>
+            <th class="px-2 py-1">SG</th>
+            <th class="px-2 py-1">Pts</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-body"></tbody>
+      </table>
     </div>
 
-    <div id="resultados" class="tab-content p-4 hidden">
-        <h2 class="text-lg font-semibold mb-3">📝 Últimos resultados</h2>
-        <div id="resultados-body" class="divide-y divide-gray-200 text-sm"></div>
+    <div id="resultados" class="tab-content hidden">
+      <div id="resultados-body"></div>
     </div>
 
-    <div id="artilheiros" class="tab-content p-4 hidden">
-      <p>🔫 Lista de artilheiros em breve!</p>
-    </div>
-
-    <div id="cartoes" class="tab-content p-4 hidden">
-      <p>🟨🟥 Estatísticas de cartões em breve!</p>
-    </div>
-
-    <div id="jogos" class="tab-content p-4 hidden">
-      <p>📆 Próximos jogos aparecerão aqui.</p>
+    <div id="artilharia" class="tab-content hidden">
+      <div id="artilheiros" class="bg-white rounded shadow p-3"></div>
     </div>
   </div>
 
-  <script>
-    // Dados mockados para classificação
-    const times = [
-      { nome: "Real Madrid"},
-      { nome: "Atlético de Madrid"},
-      { nome: "Barcelona"},
-    ];
-
-    const jogos = [
-    {
-      data: "2025-04-01",
-      rodada: 1,
-      casa: "Real Madrid",
-      fora: "Barcelona",
-      golsCasa: 2,
-      golsFora: 1,
-      marcadoresCasa: ["Vinícius Jr", "Bellingham"],
-      marcadoresFora: ["Lewandowski"]
-    },
-    {
-      data: "2025-04-02",
-      rodada: 1,
-      casa: "Atlético de Madrid",
-      fora: "Real Madrid",
-      golsCasa: 1,
-      golsFora: 3,
-      marcadoresCasa: ["Griezmann"],
-      marcadoresFora: ["Bellingham", "Rodrygo", "Vinícius Jr"]
-    },
-  ];
-
-  const escudos = {
-    "Real Madrid": "img/real_madrid.png",
-    "Barcelona": "img/barcelona.png",
-    "Atlético de Madrid": "img/atlético_de_madrid.png"
-  };
-
-  // Função para calcular classificação a partir dos jogos
-  function calcularClassificacao(jogos) {
-    const times = {};
-
-    jogos.forEach(jogo => {
-      const { casa, fora, golsCasa, golsFora } = jogo;
-
-      if (!times[casa]) {
-        times[casa] = { nome: casa, pj: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0 };
-      }
-      if (!times[fora]) {
-        times[fora] = { nome: fora, pj: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0 };
-      }
-
-      times[casa].pj++;
-      times[fora].pj++;
-
-      times[casa].gp += golsCasa;
-      times[casa].gc += golsFora;
-
-      times[fora].gp += golsFora;
-      times[fora].gc += golsCasa;
-
-      if (golsCasa > golsFora) {
-        times[casa].v++;
-        times[fora].d++;
-      } else if (golsCasa < golsFora) {
-        times[fora].v++;
-        times[casa].d++;
-      } else {
-        times[casa].e++;
-        times[fora].e++;
-      }
-    });
-
-    // Convertendo para array
-    const classificacao = Object.values(times);
-
-    classificacao.forEach(time => {
-      time.sg = time.gp - time.gc;
-      time.pts = time.v * 3 + time.e;
-    });
-
-    classificacao.sort((a, b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      return b.sg - a.sg;
-    });
-
-    return classificacao;
-  }
-
-  function atualizarTabelaClassificacao() {
-    const classificacao = calcularClassificacao(jogos);
-    const tabelaBody = document.getElementById("tabela-body");
-    tabelaBody.innerHTML = "";
-  
-    classificacao.forEach((time, index) => {
-      const row = document.createElement("tr");
-      row.className = "hover:bg-gray-50";
-      row.innerHTML = `
-        <td class="px-3 py-2 font-bold">${index + 1}</td>
-        <td class="px-3 py-2 flex items-center gap-2">
-          <img src="${escudos[time.nome]}" alt="${time.nome}" class="w-6 h-6 object-contain" />
-          <span>${time.nome}</span>
-        </td>
-        <td class="px-3 py-2">${time.pj}</td>
-        <td class="px-3 py-2">${time.v}</td>
-        <td class="px-3 py-2">${time.e}</td>
-        <td class="px-3 py-2">${time.d}</td>
-        <td class="px-3 py-2">${time.gp}</td>
-        <td class="px-3 py-2">${time.gc}</td>
-        <td class="px-3 py-2">${time.sg}</td>
-        <td class="px-3 py-2 font-semibold">${time.pts}</td>
-      `;
-      tabelaBody.appendChild(row);
-    });
-  }
-
-  // Inicializa as abas e conteúdo
-  document.addEventListener("DOMContentLoaded", () => {
-    atualizarTabelaClassificacao();
-    preencherResultados();
-    preencherArtilheiros();
-    document.querySelectorAll(".tab-button")[0].click();
-  });
-
-  function preencherResultados() {
-    const resultadosDiv = document.getElementById("resultados-body");
-    resultadosDiv.innerHTML = "";
-  
-    // Agrupar jogos por data
-    const jogosPorData = {};
-  
-    jogos.forEach(jogo => {
-      if (!jogosPorData[jogo.data]) {
-        jogosPorData[jogo.data] = [];
-      }
-      jogosPorData[jogo.data].push(jogo);
-    });
-  
-    // Ordenar as datas
-    const datasOrdenadas = Object.keys(jogosPorData).sort();
-  
-    // Renderizar por rodada
-    datasOrdenadas.forEach((data, index) => {
-      const numeroRodada = index + 1;
-      const section = document.createElement("div");
-      section.className = "mb-4";
-  
-      const titulo = document.createElement("h3");
-      titulo.className = "font-semibold text-gray-700 mb-2";
-      titulo.textContent = `Rodada ${numeroRodada} - ${formatarData(data)}`;
-      section.appendChild(titulo);
-  
-      jogosPorData[data].forEach(jogo => {
-        const item = document.createElement("div");
-        item.className = "flex justify-between items-center py-2 px-3 bg-white shadow-sm rounded mb-1";
-        item.innerHTML = `
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2 flex-1">
-            <img src="img/${jogo.casa.toLowerCase().replace(/ /g, "_")}.png" class="w-6 h-6" />
-            <span>${jogo.casa}</span>
-            </div>
-            <span class="w-16 text-center font-bold">${jogo.golsCasa} x ${jogo.golsFora}</span>
-            <div class="flex items-center gap-2 flex-1 justify-end">
-            <span>${jogo.fora}</span>
-            <img src="img/${jogo.fora.toLowerCase().replace(/ /g, "_")}.png" class="w-6 h-6" />
-            </div>
-        </div>
-        <div class="text-xs text-gray-600 mt-1">
-            <span>${jogo.casa}: ${jogo.marcadoresCasa.join(", ") || "—"}</span><br>
-            <span>${jogo.fora}: ${jogo.marcadoresFora.join(", ") || "—"}</span>
-        </div>
-        `;
-        section.appendChild(item);
-      });
-  
-      resultadosDiv.appendChild(section);
-    });
-  }
-  
-  
-  // Função auxiliar para formatar a data em "DD/MM/AAAA"
-  function formatarData(dataStr) {
-    const [ano, mes, dia] = dataStr.split("-");
-    return `${dia}/${mes}/${ano}`;
-  }
-
-  function preencherArtilheiros() {
-    const artilheirosDiv = document.getElementById("artilheiros");
-    const contagem = {};
-  
-    jogos.forEach(jogo => {
-      jogo.marcadoresCasa.forEach(jogador => {
-        contagem[jogador] = (contagem[jogador] || 0) + 1;
-      });
-      jogo.marcadoresFora.forEach(jogador => {
-        contagem[jogador] = (contagem[jogador] || 0) + 1;
-      });
-    });
-  
-    const lista = Object.entries(contagem)
-      .sort((a, b) => b[1] - a[1])
-      .map(([jogador, gols]) => `<li class="py-1">${jogador} - <strong>${gols}</strong> gol(s)</li>`)
-      .join("");
-  
-    artilheirosDiv.innerHTML = `
-      <ul class="text-sm">
-        ${lista || "<li>Nenhum gol registrado ainda.</li>"}
-      </ul>
-    `;
-  }
-
-    // Calcula SG e PTS
-    times.forEach(time => {
-      time.sg = time.gp - time.gc;
-      time.pts = time.v * 3 + time.e;
-    });
-
-    // Ordena
-    times.sort((a, b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      return b.sg - a.sg;
-    });
-
-    // Preenche tabela
-    const tabelaBody = document.getElementById("tabela-body");
-    times.forEach((time, index) => {
-      const row = document.createElement("tr");
-      row.className = "hover:bg-gray-50";
-      row.innerHTML = `
-        <td class="px-3 py-2 font-bold">${index + 1}</td>
-        <td class="px-3 py-2">${time.nome}</td>
-        <td class="px-3 py-2">${time.pj}</td>
-        <td class="px-3 py-2">${time.v}</td>
-        <td class="px-3 py-2">${time.e}</td>
-        <td class="px-3 py-2">${time.d}</td>
-        <td class="px-3 py-2">${time.gp}</td>
-        <td class="px-3 py-2">${time.gc}</td>
-        <td class="px-3 py-2">${time.sg}</td>
-        <td class="px-3 py-2 font-semibold">${time.pts}</td>
-      `;
-      tabelaBody.appendChild(row);
-    });
-
-    // Lógica das abas
-    const tabButtons = document.querySelectorAll(".tab-button");
-    const tabContents = document.querySelectorAll(".tab-content");
-
-    tabButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        const target = button.getAttribute("data-tab");
-
-        tabContents.forEach(content => {
-          content.classList.add("hidden");
-        });
-
-        document.getElementById(target).classList.remove("hidden");
-
-        tabButtons.forEach(btn => btn.classList.remove("border-b-2", "border-blue-500", "font-semibold"));
-        button.classList.add("border-b-2", "border-blue-500", "font-semibold");
-      });
-    });
-
-    // Abre a primeira aba por padrão
-    tabButtons[0].click();
-  </script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
