@@ -2,11 +2,13 @@ import { jogos, escudos } from "./dados.js";
 import { calcularClassificacao } from "./classificacao.js";
 import { preencherResultados } from "./resultados.js";
 import { preencherArtilheiros } from "./artilheiros.js";
+import { preencherCalendario } from "./calendario.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   preencherClassificacao();
   preencherResultados(jogos);
   preencherArtilheiros(jogos);
+  preencherCalendario(jogos);
   ativarAbas();
 });
 
