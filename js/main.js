@@ -3,12 +3,14 @@ import { calcularClassificacao } from "./classificacao.js";
 import { preencherResultados } from "./resultados.js";
 import { preencherArtilheiros } from "./artilheiros.js";
 import { preencherCalendario } from "./calendario.js";
+import { preencherVideos } from "./videos.js"
 
 document.addEventListener("DOMContentLoaded", () => {
   preencherClassificacao();
   preencherResultados(jogos);
   preencherArtilheiros(jogos);
   preencherCalendario(jogos);
+  preencherVideos();
   ativarAbas();
 });
 
