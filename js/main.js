@@ -4,11 +4,13 @@ import { preencherResultados } from "./resultados.js";
 import { preencherArtilheiros } from "./artilheiros.js";
 import { preencherCalendario } from "./calendario.js";
 import { preencherVideos } from "./videos.js"
+import { preencherCartoes } from "./cartoes.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   preencherClassificacao();
   preencherResultados(jogos);
   preencherArtilheiros(jogos);
+  preencherCartoes(jogos);
   preencherCalendario(jogos);
   preencherVideos();
   ativarAbas();

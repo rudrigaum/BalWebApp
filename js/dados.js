@@ -7,7 +7,12 @@ export const jogos = [
       golsCasa: 2,
       golsFora: 1,
       marcadoresCasa: ["Vinícius Jr", "Bellingham"],
-      marcadoresFora: ["Lewandowski"]
+      marcadoresFora: ["Lewandowski"],
+      cartoes: [
+      { jogador: "Vinícius Jr", tipo: "amarelo", time: "Real Madrid" },
+      { jogador: "Bellingham", tipo: "vermelho", time: "Real Madrid" },
+      { jogador: "Gavi", tipo: "azul", time: "Barcelona" }
+      ]
     },
     {
       data: "2025-04-02",
