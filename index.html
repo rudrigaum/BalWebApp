@@ -15,30 +15,15 @@
     </div>
 
     <!-- Abas -->
-
-    <nav class="bg-white p-4" x-data="{ open: false }">
-      <div class="flex items-center justify-between">
-        <div class="text-xl font-bold">Meu Site</div>
-        <!-- Botão do menu hambúrguer -->
-        <button @click="open = !open" class="sm:hidden focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"/>
-            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <!-- Menu de navegação -->
-      <div :class="{'block': open, 'hidden': !open}" class="sm:flex sm:items-center sm:justify-between sm:space-x-4 mt-4 sm:mt-0">
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Classificação</a>
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Resultados</a>
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Artilharia</a>
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Cartões</a>
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Calendário</a>
-        <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">Vídeos</a>
-      </div>
-    </nav>
+     
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="classificacao">Classificação</button>
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="resultados">Resultados</button>
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="artilharia">Artilharia</button>
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="cartoes">Cartões</button>
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="calendario">Calendário</button>
+      <button class="tab-button px-4 py-2 w-full sm:w-auto" data-tab="videos">Vídeos</button>
+    </div>
 
     <!-- Conteúdo das abas -->
     <div id="classificacao" class="tab-content hidden">
@@ -81,7 +66,6 @@
     <div id="videos-body" class="space-y-4"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="./js/dados.js"></script>
   <script src="./js/jogos.js"></script>
   <script src="./js/classificacao.js"></script>
